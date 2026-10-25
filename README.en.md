@@ -32,6 +32,14 @@ One complete full run of the first tier (13.6M-parameter scale), measured number
 | Reproducibility | **bit-identical** | two runs with the same seed, step-by-step losses bitwise equal |
 | Convergence trend | **2.6436 → 1.3732** (−48.1%) | only 2 upward moves across 14 windows — inside the convergence noise floor |
 
+![Stage-1 training loss curve](docs/stage1_loss_curve.svg)
+
+> **Figure note (two different bases — don't mix them)**: the curve shows the **training-time**
+> eval (last point **1.3694** @ step 20,000), while the acceptance eval **1.5618** in the table
+> above is `verify_stage1.py`'s **independent 32-block held-out re-evaluation**.
+> Different bases, and **both satisfy ≤1.8**. Plot script: `scripts/plot_stage1_curve.py`
+> (zero dependencies, standard library only, fully reproducible).
+
 > **Honest note**: the strict "no window may increase" criterion rose by 0.16% on the full
 > run (inside the convergence noise floor), so we keep a **trend-based** criterion alongside it
 > and report both, rather than hiding the miss. See `stage1/README.md` §4.
