@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 训练产物（不进仓库：体积大且可复现）
+stage1/checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+out/
+runs/
+logs/
+*.log
+
+# 数据（不进仓库：语料单独按许可台账管理）
+data/
+corpus/
+datasets/
+*.jsonl
+*.parquet
+
+# 工具
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/
