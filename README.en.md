@@ -118,7 +118,7 @@ pretraining run) and **corpus curation & evaluation**.
 | Channel | Where |
 |---|---|
 | RMB | 爱发电 / Afdian (`_AFDIAN_URL_`) |
-| USD | Ko-fi (`_KOFI_URL_`) |
+| USD | Ko-fi (`https://ko-fi.com/chesiai`) |
 
 Training progress and loss curves are posted on the sponsorship page every month.
 
