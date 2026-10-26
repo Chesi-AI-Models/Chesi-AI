@@ -6,6 +6,9 @@ Own tokenizer · Own base model · Apache-2.0
 > A one-person public experiment: no external model as the base, no model-generated
 > training data. Code, corpus admission criteria and training logs are all open.
 
+**Weights are published** → [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Chesi--AI--stage1-ffd21e)](https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1)
+
+
 ---
 
 ## What this is
@@ -34,6 +37,9 @@ One complete full run of the first tier (13.6M-parameter scale), measured number
 | Convergence trend | **2.6436 → 1.3732** (−48.1%) | only 2 upward moves across 14 windows — inside the convergence noise floor |
 
 ![Stage-1 training loss curve](docs/stage1_loss_curve.svg)
+
+> **Weights**: full weights (safetensors, 54.5 MB) + tokenizer + training history are on
+> [HuggingFace · Chesi-AI-Models/Chesi-AI-stage1](https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1).
 
 > **Figure note (two different bases — don't mix them)**: the curve shows the **training-time**
 > eval (last point **1.3694** @ step 20,000), while the acceptance eval **1.5618** in the table
