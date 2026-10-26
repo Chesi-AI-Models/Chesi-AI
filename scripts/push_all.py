@@ -67,8 +67,18 @@ def main():
     ap.add_argument("--branch", default="main")
     ap.add_argument("--root", default=os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
     ap.add_argument("--message", default="chore: sync working tree via Contents API")
+    ap.add_argument("--mirror-of", default=None,
+                    help="若本仓库是镜像，填主仓库地址（owner/name）；同步时会自动在 README 顶部插入镜像提示")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+
+    mirror_note = {}
+    if args.mirror_of:
+        canonical = f"https://github.com/{args.mirror_of}"
+        mirror_note = {
+            "README.md": f"> **本仓库为镜像**：主仓库在 <{canonical}>，后续更新以主仓库为准。\n",
+            "README.en.md": f"> **This repo is a mirror**: the canonical repo is <{canonical}>.\n",
+        }
 
     root = os.path.abspath(args.root)
     if not os.path.isdir(root):
@@ -80,6 +90,22 @@ def main():
     for full, rel in walk(root):
         with open(full, "rb") as f:
             content = f.read()
+        # 镜像仓库：README 顶部自动插入/保留镜像提示
+        if rel in mirror_note:
+            try:
+                txt = content.decode("utf-8")
+            except UnicodeDecodeError:
+                txt = None
+            if txt is not None:
+                marker = "本仓库为镜像" if rel == "README.md" else "This repo is a mirror"
+                if marker not in txt:
+                    lines = txt.split("\n")
+                    for i, ln in enumerate(lines):
+                        if ln.startswith("## "):
+                            lines.insert(i, mirror_note[rel].rstrip())
+                            break
+                    txt = "\n".join(lines)
+                    content = txt.encode("utf-8")
         b64 = base64.b64encode(content).decode()
         cur = api("GET", f"repos/{args.repo}/contents/{rel}?ref={args.branch}")
         if cur:
