@@ -45,10 +45,11 @@ One complete full run of the first tier (13.6M-parameter scale), measured number
 > run (inside the convergence noise floor), so we keep a **trend-based** criterion alongside it
 > and report both, rather than hiding the miss. See `stage1/README.md` §4.
 
-**Training corpus (Stage-1)**: OpenThoughts 1,200,000 rows + SmallThoughts 102,000 rows.
-⚠️ Both are **English reasoning corpora**. In Chesi's roadmap they serve as a *reasoning
-capability component* only — not the Chinese base-model staple. The Chinese base corpus comes
-from SkyPile-150B (head tier, 61GB / 39 shards already landed); admission criteria below.
+**Training corpus (Stage-1)**: English reasoning corpora (OpenThoughts3 1,200,000 rows + SmallThoughts
+102,000 rows, Apache-2.0) — a *reasoning capability component* in Chesi's roadmap; the Chinese base
+corpus belongs to Stage-2.
+**Full corpus ledger (source / license / size / admission tier / exclusions) is in
+[`docs/CORPUS_LEDGER.md`](docs/CORPUS_LEDGER.md).**
 
 **Tokenizer**: self-trained v1.1, character-level, two tiers — Stage-1 vocab 7,276 /
 full 11,387, with 100% round-trip consistency across four datasets.
@@ -110,7 +111,7 @@ Device-agnostic: it runs on CPU too (`--device cpu`), just slower.
 ```
 Chesi-AI/
 ├── tokenizer/               # self-trained tokenizer v1.1 (char-level, 7,276 / 11,387, zero deps)
-├── docs/                    # reproduction guide + Stage-1 loss curve (SVG, reproducible script)
+├── docs/                    # reproduction guide + corpus ledger + Stage-1 loss curve (SVG, reproducible)
 ├── scripts/                 # plotting script (stdlib only) + sync tool
 ├── stage1/                  # from-scratch pretraining trainer (device-agnostic + DDP + resumable)
 │   ├── model.py             # ChesiGPT: 6 layers / d=384 / 8 heads / seq 512
