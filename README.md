@@ -42,9 +42,9 @@
 > 因此我们同时保留**趋势式**判据并双判据并存，而不是把失败藏起来。
 > 详见 `stage1/README.md` §4。
 
-**训练语料（Stage-1）**：OpenThoughts 1,200,000 行 + SmallThoughts 102,000 行。
-⚠️ 这两套是**英文推理语料**，在澈思的路线里只作**推理能力增强组件**，不是中文基座主粮；
-中文基座语料来自 SkyPile-150B（head 层，已落地 61GB / 39 分片），准入口径见下。
+**训练语料（Stage-1）**：英文推理语料（OpenThoughts3 1,200,000 行 + SmallThoughts 102,000 行，Apache-2.0），
+在澈思路线里只作推理增强组件；中文基座语料走 Stage-2。
+**完整语料台账（来源 / 许可 / 体量 / 准入等级 / 排除项）见 [`docs/CORPUS_LEDGER.md`](docs/CORPUS_LEDGER.md)。**
 
 **Tokenizer**：自训 v1.1，字符级双档 —— Stage 1 词表 7,276 / 全量 11,387，
 四大数据集往返一致性 100%。
@@ -96,7 +96,7 @@ python stage1/verify_stage1.py --mode full
 ```
 Chesi-AI/
 ├── tokenizer/               # 自训 tokenizer v1.1（字符级双档 7,276 / 11,387，零依赖）
-├── docs/                    # 复现指南 + Stage-1 loss 曲线（SVG，可复现脚本）
+├── docs/                    # 复现指南 + 语料台账 + Stage-1 loss 曲线（SVG，可复现脚本）
 ├── scripts/                 # 绘图脚本（纯标准库）+ 同步工具
 ├── stage1/                  # 从零预训练训练器四件套（设备无关 + DDP + 断点续训）
 │   ├── model.py             # ChesiGPT：6 层 / d=384 / 8 头 / seq 512
