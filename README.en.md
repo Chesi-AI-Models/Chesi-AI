@@ -67,7 +67,12 @@ curves differ by <0.4% at batch size 4.
 | Stage-5 | multimodal: image generation + anti-face-mimicry + no-AI-slop | ⏳ |
 
 **Three hard metrics** (measurable, not slogans):
-1. **Prompt-free autonomous seven-step reasoning** — implicit CoT training + STaR self-distillation from our own model
+1. **Prompt-free autonomous seven-step reasoning** — **Goal**: train the seven-step reasoning
+   structure *into the weights*, so inference no longer needs a prompt template.
+   Path: STaR self-distillation from our own model (generate → filter by answer correctness →
+   retrain; our own model is the teacher, so the distillation ban is not violated).
+   **Status**: the inference engine is still prompt-injection based (level≥2 prepends the seven
+   headings); internalisation starts once Stage-2 (1B) is running.
 2. **No AI slop** — real-photo gold standards + preference-pair DPO + blind-test KPI
 3. **Anti-face-mimicry** — cross-seed ArcFace cosine with a measurable ceiling; the same prompt must never yield the same face
 
