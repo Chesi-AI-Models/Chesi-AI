@@ -32,16 +32,26 @@ SKIP_PATTERNS = [
     "data/*", "corpus/*", "datasets/*", ".DS_Store",
 ]
 SKIP_DIRS = {".git", "__pycache__", "out", "runs", "data", "corpus", "datasets", ".idea"}
+# 自身运行时产生的临时文件，绝不能上传
+SKIP_PATTERNS += [".push_all_payload.json", "pushall_*.json"]
 
 
 def api(method, path, data=None, repo_ok=True):
+    import tempfile
     cmd = ["gh", "api", path, "-X", method]
+    tmp = None
     if data is not None:
-        tmp = os.path.join(os.getcwd(), ".push_all_payload.json")
+        # 临时文件放系统 temp，绝不落在工作树里（否则会被 walk 扫到并自我上传）
+        fd, tmp = tempfile.mkstemp(suffix=".json", prefix="pushall_")
+        os.close(fd)
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False)
         cmd += ["--input", tmp]
-    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    finally:
+        if tmp and os.path.exists(tmp):
+            os.remove(tmp)
     if r.returncode != 0:
         if repo_ok:
             return None
