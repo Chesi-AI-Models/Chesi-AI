@@ -23,8 +23,8 @@ import json
 import os
 
 # ---- 绘图参数 ----
-W, H = 960, 470
-ML, MR, MT, MB = 78, 210, 58, 62      # 左边距/右边距/上边距/下边距
+W, H = 960, 520
+ML, MR, MT, MB = 78, 210, 58, 88      # 左边距/右边距/上边距/下边距（底部留白给脚注）
 BG = "#ffffff"
 AXIS = "#94a3b8"
 GRID = "#eef2f7"
@@ -83,10 +83,12 @@ def build_svg(hist):
     p.append(f'<text x="{ML+pw/2}" y="{MT+ph+42}" font-size="12" fill="{TEXT}" text-anchor="middle">training step</text>')
     p.append(f'<text x="22" y="{MT+ph/2}" font-size="12" fill="{TEXT}" text-anchor="middle" transform="rotate(-90 22 {MT+ph/2})">loss</text>')
 
-    # 阈值线 1.8
+    # 阈值线 1.8（标签移到绘图区右上空白处 + 白色底衬，避免被曲线压住）
     yty = Y(1.8)
     p.append(f'<line x1="{ML}" y1="{yty:.1f}" x2="{ML+pw}" y2="{yty:.1f}" stroke="{THRESH}" stroke-width="1.4" stroke-dasharray="6,4"/>')
-    p.append(f'<text x="{ML+6}" y="{yty-6:.1f}" font-size="11" fill="{THRESH}" font-weight="600">acceptance criterion &#8804; 1.8</text>')
+    tlx = ML + pw - 8
+    p.append(f'<rect x="{tlx-158:.1f}" y="{yty-21:.1f}" width="162" height="17" rx="3" fill="#ffffff" opacity="0.92"/>')
+    p.append(f'<text x="{tlx}" y="{yty-8:.1f}" font-size="11" fill="{THRESH}" font-weight="600" text-anchor="end">acceptance criterion &#8804; 1.8</text>')
 
     # train loss 折线
     tp = " ".join(f"{X(s):.1f},{Y(v):.1f}" for s, v in zip(steps, loss))
@@ -96,11 +98,13 @@ def build_svg(hist):
     ep = " ".join(f"{X(s):.1f},{Y(v):.1f}" for s, v in evs)
     p.append(f'<polyline points="{ep}" fill="none" stroke="{EVAL}" stroke-width="1.9"/>')
 
-    # 末点标注
+    # 末点标注（置于点的左下 + 白色底衬，避免压住曲线）
     last_s, last_v = evs[-1]
     lx, ly = X(last_s), Y(last_v)
     p.append(f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4" fill="{EVAL}"/>')
-    p.append(f'<text x="{lx-8:.1f}" y="{ly-10:.1f}" font-size="12" font-weight="600" fill="{EVAL}" text-anchor="end">'
+    tx, ty = lx - 14, ly + 22
+    p.append(f'<rect x="{tx-160:.1f}" y="{ty-13:.1f}" width="164" height="17" rx="3" fill="#ffffff" opacity="0.92"/>')
+    p.append(f'<text x="{tx:.1f}" y="{ty:.1f}" font-size="12" font-weight="600" fill="{EVAL}" text-anchor="end">'
              f'eval {last_v:.4f} @ step {last_s:,}</text>')
 
     # 右侧图例与说明
