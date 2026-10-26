@@ -6,6 +6,7 @@
 > 全部代码、语料准入口径与训练日志公开可查。
 
 **模型权重已发布** → [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Chesi--AI--stage1-ffd21e)](https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1)
+**赞助入口** → [![爱发电](https://img.shields.io/badge/%E7%88%B1%E5%8F%91%E7%94%B5-%E6%94%AF%E6%8C%81%E6%BE%88%E6%80%9D-946ce6)](https://afdian.com/a/chesiai) [![Ko-fi](https://img.shields.io/badge/Ko--fi-chesiai-FF5E5B)](https://ko-fi.com/chesiai)
 
 
 ---
