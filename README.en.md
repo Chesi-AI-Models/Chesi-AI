@@ -20,7 +20,8 @@ then "whose model is this?" can never be answered honestly. We chose the slower 
 
 ## Stage-1: trained and verified (measured 2026-10-23)
 
-One complete full run of the first tier (13.6M-parameter scale), measured numbers:
+One complete full run of the first tier (13.6M-parameter scale), measured numbers:/n/n> ℹ️ This tier trains on **English reasoning corpora** (OpenThoughts3 + SmallThoughts, see below).
+> The Chinese base corpus belongs to Stage-2.
 
 | Metric | Measured | Basis / criterion |
 |---|---|---|
@@ -52,17 +53,18 @@ from SkyPile-150B (head tier, 61GB / 39 shards already landed); admission criter
 **Tokenizer**: self-trained v1.1, character-level, two tiers — Stage-1 vocab 7,276 /
 full 11,387, with 100% round-trip consistency across four datasets.
 
-**Device-agnostic**: detection chain `cuda → npu → xpu → musa → cpu`, so OpenI's three
-domestic cards (910B / C500 / BI-V100) are expected to behave consistently; CPU and CUDA
-curves differ by <0.4% at batch size 4.
+**Device-agnostic**: detection chain `cuda → npu → xpu → musa → cpu`; CPU and CUDA curves differ
+by <0.4% at batch size 4 (measured).
+⚠️ **Ascend 910B / C500 / BI-V100 have NOT been measured yet** — the device chain is ready; actual
+verification happens during the OpenI three-stage smoke run.
 
 ## Roadmap
 
 | Stage | Goal | Status |
 |---|---|---|
 | Stage-1 | 10M-scale from-scratch pretraining: verify convergence and numerical correctness | ✅ verified (table above) |
-| Stage-2 | **Chesi-1B** from-scratch pretraining (Chinese base corpus) | 🔄 corpus landed, training pending |
-| Stage-3 | own base + own personality SFT (500k examples) | ⏳ |
+| Stage-2 | **Chesi-1B** from-scratch pretraining (Chinese base corpus) | 🔄 corpus **downloaded** (SkyPile-150B head tier, 61GB / 39 shards); token stats + admission audit in progress |
+| Stage-3 | own base + own personality SFT (target 500k; candidate pool 806k, ratio + filtering not frozen) | ⏳ |
 | Stage-4 | DPO / RL: context-aware honesty policy | ⏳ |
 | Stage-5 | multimodal: image generation + anti-face-mimicry + no-AI-slop | ⏳ |
 
@@ -77,6 +79,10 @@ curves differ by <0.4% at batch size 4.
 3. **Anti-face-mimicry** — cross-seed ArcFace cosine with a measurable ceiling; the same prompt must never yield the same face
 
 ## Quick start (reproduce Stage-1)
+
+Full walkthrough: **[`docs/REPRODUCE.md`](docs/REPRODUCE.md)** — corpus acquisition + license check,
+parquet→jsonl conversion, acceptance criteria, and an honest boundary between *what is guaranteed
+to reproduce* and *what shifts when the corpus differs*.
 
 ```bash
 # deps: torch (CUDA or CPU); everything else is Python standard library
@@ -103,6 +109,9 @@ Device-agnostic: it runs on CPU too (`--device cpu`), just slower.
 
 ```
 Chesi-AI/
+├── tokenizer/               # self-trained tokenizer v1.1 (char-level, 7,276 / 11,387, zero deps)
+├── docs/                    # reproduction guide + Stage-1 loss curve (SVG, reproducible script)
+├── scripts/                 # plotting script (stdlib only) + sync tool
 ├── stage1/                  # from-scratch pretraining trainer (device-agnostic + DDP + resumable)
 │   ├── model.py             # ChesiGPT: 6 layers / d=384 / 8 heads / seq 512
 │   ├── data.py              # PackedCorpus: streaming fixed-length blocks
