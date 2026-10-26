@@ -121,7 +121,7 @@ Chesi-AI/
 
 | 通道 | 入口 |
 |---|---|
-| 人民币 | 爱发电（`_AFDIAN_URL_`） |
+| 人民币 | 爱发电（`https://afdian.com/a/chesiai`） |
 | 美元 | Ko-fi（`https://ko-fi.com/chesiai`） |
 
 每月会在赞助页面同步训练进展与 loss 曲线。
