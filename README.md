@@ -5,6 +5,9 @@
 > 一个独立开发者从零开始的公开实验：不用任何外部模型当基座，不用任何模型生成训练数据，
 > 全部代码、语料准入口径与训练日志公开可查。
 
+**模型权重已发布** → [![HuggingFace](https://img.shields.io/badge/%F0%9F%A4%97%20HuggingFace-Chesi--AI--stage1-ffd21e)](https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1)
+
+
 ---
 
 ## 这是什么
@@ -33,6 +36,9 @@
 | 收敛趋势 | 首尾 **2.6436 → 1.3732**（降幅 48.1%） | 14 个窗口中仅 2 次回升，落在收敛噪声地板上 |
 
 ![Stage-1 训练损失曲线](docs/stage1_loss_curve.svg)
+
+> **权重下载**：本模型的完整权重（safetensors，54.5 MB）+ tokenizer + 训练历史已发布到
+> [HuggingFace · Chesi-AI-Models/Chesi-AI-stage1](https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1)。
 
 > **图注（两个口径，别混）**：曲线是**训练期内记录**的 eval（末点 **1.3694** @ step 20,000）；
 > 上表的验收 eval **1.5618** 是 `verify_stage1.py` 的**独立复评**（32-block held-out）。
