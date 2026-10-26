@@ -1,11 +1,14 @@
 # 澈思 AI 赞助入口
 #
-# GitHub FUNDING.yml 格式（官方）：ko_fi 用**用户名**，不是完整 URL；GitHub 会拼成 ko-fi.com/<用户名>
+# GitHub FUNDING.yml 官方格式：
+#   · ko_fi  用**用户名**（不是完整 URL），GitHub 自动拼成 ko-fi.com/<用户名>
+#   · custom 用**完整 URL**（最多 4 个）
 #
 # 美元通道：Ko-fi（donations 平台费 0%，钱即时进 PayPal 余额）
 ko_fi: chesiai
 
 # 人民币通道：爱发电（抽 6%，微信/支付宝到账）
-# custom: ["https://afdian.com/a/<你的爱发电用户名>"]   # ⏳ 待爱发电注册后回填
+custom: ["https://afdian.com/a/chesiai"]
 
-# 合规：赞助与返佣必须分开披露；返佣链接须标注「返佣链接可能产生佣金」，不得伪装成中立推荐。
+# 合规约定：赞助与返佣必须分开披露；返佣链接须标注「返佣链接可能产生佣金」，
+# 不得伪装成中立推荐。所有对外数字必须带口径。
