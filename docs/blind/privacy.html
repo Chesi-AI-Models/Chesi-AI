@@ -21,8 +21,26 @@ code{background:#0a0d12;border-radius:4px;padding:1px 6px;font-size:.9em;color:v
 .box.ok{border-color:#166534;background:#0d1f16}
 .box.ok b{color:var(--ok)}
 table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
-th{text-align:left;padding:9px 12px;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;background:#111720;border-bottom:1px solid var(--line)}
-td{padding:9px 12px;border-bottom:1px solid #1a2130;color:var(--fg2);vertical-align:top}
+th{text-align:left;padding:9px 11px;font-size:11.5px;color:var(--dim);letter-spacing:.04em;background:#111720;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 11px;border-bottom:1px solid #1a2130;color:var(--fg2);vertical-align:top;font-size:13.5px;line-height:1.65}
+/* 三列宽度控制：项目 34% / 是否收集 20% / 说明 46% */
+table{table-layout:fixed}
+th:nth-child(1),td:nth-child(1){width:34%}
+th:nth-child(2),td:nth-child(2){width:20%;white-space:nowrap}
+th:nth-child(3),td:nth-child(3){width:46%}
+td b{color:var(--ok)}
+/* 手机：把三列表格改成逐条卡片，避免横向挤压 */
+@media(max-width:520px){
+  table,tbody,tr,td{display:block;width:100%}
+  thead{display:none}
+  tr{border-bottom:1px solid #1a2130;padding:11px 0}
+  tr:last-child{border-bottom:0}
+  td{border:0;padding:0 0 4px 0;width:100%!important}
+  td:nth-child(1){font-weight:700;color:var(--fg);font-size:14.5px}
+  td:nth-child(2){font-size:13px;color:var(--dim)}
+  td:nth-child(2)::before{content:'→ '}
+  td:nth-child(3){font-size:13.5px}
+}
 tr:last-child td{border-bottom:0}
 a{color:var(--accent);text-decoration:none}
 footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--dim)}
