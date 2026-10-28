@@ -405,9 +405,13 @@ footer .meta{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);f
   </div>
 
     <div class="note" style="margin-top:22px">
-    <b>关于访问：</b>本站在 GitHub Pages 托管，<b>中国大陆可直接访问，无需代理</b>。
-    但页面里的 <code class="inl">huggingface.co</code> 原站链接在大陆需代理 —— 因此权重与数据集链接一律优先给
-    <code class="inl">hf-mirror.com</code> 镜像（大陆直连可用）。
+    <b>关于访问（实测，不美化）：</b>
+    <ul style="margin:8px 0 0 20px;font-size:13.5px">
+      <li><b>本站（github.io）</b>：中国大陆直连可用，实测 0.4-0.9 秒首字节。</li>
+      <li><b>huggingface.co 原站</b>：大陆直连不通 → 权重与数据集链接一律优先给 <code class="inl">hf-mirror.com</code> 镜像（实测直连 200）。</li>
+      <li><b>github.com 仓库页</b>：大陆直连不稳定（本机多次实测超时）→ 已标注「需代理」。若你只是要代码，本站右侧「复现指南」已含完整步骤，不必非去仓库。</li>
+      <li><b>ko-fi.com</b>：大陆需代理；国内赞助请走爱发电。</li>
+    </ul>
   </div>
 
   <div class="note warn" style="margin-top:14px">
@@ -623,14 +627,14 @@ python stage1/verify_stage1.py --mode full</pre>
       <div>从零训练的中文人格化多模态小模型</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:5px">
-      <a href="https://github.com/Chesi-AI-Models/Chesi-AI" target="_blank" rel="noopener">GitHub 仓库</a>
+      <a href="https://github.com/Chesi-AI-Models/Chesi-AI" target="_blank" rel="noopener">GitHub 仓库（需代理）</a>
       <a href="https://hf-mirror.com/Chesi-AI-Models/Chesi-AI-stage1" target="_blank" rel="noopener">权重下载（大陆镜像）</a>
       <a href="https://afdian.com/a/chesiai" target="_blank" rel="noopener">爱发电</a>
     </div>
     <div style="display:flex;flex-direction:column;gap:5px">
       <a href="REPRODUCE.html">复现指南</a>
       <a href="CORPUS_LEDGER.html">语料台账</a>
-      <a href="https://github.com/Chesi-AI-Models/Chesi-AI/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0</a>
+      <a href="https://github.com/Chesi-AI-Models/Chesi-AI/blob/main/LICENSE" target="_blank" rel="noopener">Apache-2.0（需代理）</a>
     </div>
   </div>
   <div class="meta">
