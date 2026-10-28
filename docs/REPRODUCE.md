@@ -39,8 +39,8 @@ tokenizer/
 
 | 数据集 | HF 仓库 | 规模 | 许可 |
 |---|---|---|---|
-| OpenThoughts3 | [`open-thoughts/OpenThoughts3-1.2M`](https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M) | 120 个 parquet 分片 × 10,000 行 | Apache-2.0 |
-| SmallThoughts | [`SmallDoge/SmallThoughts`](https://huggingface.co/datasets/SmallDoge/SmallThoughts) | 102,000 行 | Apache-2.0 |
+| OpenThoughts3 | [`open-thoughts/OpenThoughts3-1.2M`](https://hf-mirror.com/datasets/open-thoughts/OpenThoughts3-1.2M) | 120 个 parquet 分片 × 10,000 行 | Apache-2.0 |
+| SmallThoughts | [`SmallDoge/SmallThoughts`](https://hf-mirror.com/datasets/SmallDoge/SmallThoughts) | 102,000 行 | Apache-2.0 |
 
 **国内直连**（推荐，走镜像，下载快很多）：
 

@@ -138,6 +138,9 @@ def main():
         sp=os.path.join(d,src)
         if not os.path.exists(sp): print("  skip:",sp); continue
         out=md_to_html(open(sp,encoding="utf-8").read(), title)
+        # 保险：任何漏网的 HF 裸链一律改镜像（大陆可直连）
+        out=out.replace("https://huggingface.co/datasets/","https://hf-mirror.com/datasets/")
+        out=out.replace("https://huggingface.co/","https://hf-mirror.com/")
         dp=os.path.join(d,dst)
         open(dp,"w",encoding="utf-8",newline="\n").write(out)
         print(f"  OK {sp} -> {dp}  {len(out):,} chars")

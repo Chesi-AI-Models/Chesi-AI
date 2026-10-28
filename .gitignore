@@ -26,3 +26,8 @@ datasets/
 .DS_Store
 Thumbs.db
 .ipynb_checkpoints/
+
+# 内部工具临时文件（误提交过一次，永久挡住）
+.push_all_payload.json
+_payload*.json
+*.tmp

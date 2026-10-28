@@ -7,6 +7,10 @@
 <title>看图猜一猜 · 84 张</title>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="description" content="一个 84 张图的趣味小测试：每张猜一下是 AI 画的还是真实照片。">
+<meta property="og:title" content="帮我看 84 张图 · 猜 AI 还是真照片">
+<meta property="og:description" content="8-12 分钟，手机点开就做。不注册、不下载、不填个人信息。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="澈思 Chesi AI">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
@@ -26,6 +30,13 @@ body{
   border-bottom:1px solid #232b36;
 }
 #row1{display:flex;align-items:baseline;gap:10px;margin-bottom:7px}
+#bPrev{
+  background:transparent;border:1px solid #2b3542;color:#8b98a9;
+  font-size:12.5px;font-weight:600;padding:4px 9px;border-radius:7px;
+  cursor:pointer;font-family:inherit;flex:0 0 auto;
+}
+#bPrev:active{background:#1a2230;color:#e9eef5}
+#bPrev:disabled{opacity:.32;cursor:default}
 #num{font-size:17px;font-weight:700;color:#8ab4f8;font-variant-numeric:tabular-nums}
 #tip{font-size:12px;color:#64748b;margin-left:auto}
 #track{height:5px;background:#232b36;border-radius:99px;overflow:hidden}
@@ -41,7 +52,16 @@ body{
 
 /* ── 底部按钮 ── */
 #bot{flex:0 0 auto;padding:10px 12px calc(12px + env(safe-area-inset-bottom));
-  display:flex;gap:10px;background:#131820;border-top:1px solid #232b36}
+  display:flex;gap:10px;background:#131820;border-top:1px solid #232b36;
+  justify-content:center}
+#bot .btn{max-width:320px}
+@media(min-width:820px){
+  /* 桌面端：按钮组收窄居中，不再拉满整屏 */
+  #bot{gap:14px}
+  #bot .btn{max-width:260px;height:60px}
+  #top{padding-left:max(14px,calc((100% - 760px)/2));padding-right:max(14px,calc((100% - 760px)/2))}
+  #track{margin-left:max(0px,calc((100% - 760px)/2));margin-right:max(0px,calc((100% - 760px)/2))}
+}
 .btn{
   flex:1;border:0;border-radius:14px;padding:0;height:64px;
   font:700 19px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
@@ -142,15 +162,21 @@ body{
   </div>
   <button id="go">开始（84 张）</button>
   <div class="note">做完会给你一串短码，复制发回给我就行</div>
-  <div class="note" style="margin-top:6px">
-    <a href="../" style="color:#60a5fa">澈思 Chesi AI</a> · 内部小实验 ·
-    <a href="privacy.html" style="color:#64748b">隐私说明</a>
-  </div>
+      <div class="note">
+      <a href="../" style="color:#60a5fa">澈思 Chesi AI</a> · 内部小实验 ·
+      <a href="privacy.html" style="color:#64748b">隐私说明</a>
+    </div>
+    <div class="note" style="font-size:11.5px;line-height:1.65;opacity:.62">
+      84 张图里，真照片来自 <b>DOCCI</b>（Google，CC BY 4.0）；
+      AI 图由 <b>Qwen-Image 2.1</b> 按同一句描述生成。<br>
+      这是给「人能不能分辨 AI 图」做的方法验证，<b>不是在测澈思自己的模型</b>。
+    </div>
 </div>
 
 <!-- ══════ 作答区 ══════ -->
 <div id="top" style="display:none">
   <div id="row1">
+    <button id="bPrev" title="上一张">← 上一张</button>
     <span id="num">1 / 84</span>
     <span id="tip">A = AI 画的　R = 真实照片</span>
   </div>
@@ -209,9 +235,9 @@ for (let i = 1; i <= N; i++){
   const im = new Image();
   im.src = imgSrc(i);
   im.onerror = () => {
-    // 典型的 sharecode 丢失场景
+    // 注：GitHub Pages 无 sharecode，失败通常是网络抖动或单张 404
     load.innerHTML = '图片加载失败<br><span style="font-size:12px;color:#ef4444">'
-      + '请用完整链接打开（必须包含 ?sharecode=…）</span>';
+      + '请检查网络后刷新页面重试</span>';
   };
   im.onload = () => { if (++loaded === N) load.style.display = 'none'; };
   imgs.push(im);
@@ -224,6 +250,8 @@ function show(){
   pic.src = imgs[idx].src;
   $('num').textContent = (idx + 1) + ' / ' + N;
   $('fill').style.width = (idx / N * 100) + '%';
+  const pb = $('bPrev');
+  if (pb) pb.disabled = (idx === 0);
   t0 = Date.now();
 }
 
@@ -238,6 +266,25 @@ function answer(v){
 $('bA').onclick = () => answer(1);
 $('bR').onclick = () => answer(0);
 
+/* 上一张：把 idx 退回一格，并截断多余的答案（避免重答后残留） */
+function goPrev(){
+  if (idx <= 0) return;
+  idx--;
+  answers.length = idx + 1;
+  times.length = idx + 1;
+  show();
+}
+$('bPrev').onclick = goPrev;
+
+/* 桌面端键盘：← / Backspace = 上一张，A/R 或 1/0 = 作答 */
+document.addEventListener('keydown', e => {
+  if (document.getElementById('stage').style.display === 'none') return;
+  const k = e.key.toLowerCase();
+  if (k === 'arrowleft' || k === 'backspace'){ e.preventDefault(); goPrev(); }
+  else if (k === 'a' || k === '1'){ e.preventDefault(); answer(1); }
+  else if (k === 'r' || k === '0'){ e.preventDefault(); answer(0); }
+});
+
 /* 手势：左右滑也能选（左滑=上一张） */
 let sx = 0, sy = 0;
 const stage = $('stage');
@@ -248,7 +295,7 @@ stage.addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - sx;
   const dy = e.changedTouches[0].clientY - sy;
   if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6){
-    if (dx > 0 && idx > 0){ idx--; answers.length = idx + 1; show(); }
+    if (dx > 0) goPrev();
   }
 }, {passive:true});
 

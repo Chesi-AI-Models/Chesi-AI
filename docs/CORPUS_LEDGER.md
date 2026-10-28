@@ -21,8 +21,8 @@
 
 | 数据集 | 来源 | 许可 | 体量 | 等级 | 在澈思里的位置 |
 |---|---|---|---|---|---|
-| OpenThoughts3-1.2M | [`open-thoughts/OpenThoughts3-1.2M`](https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M) | **Apache-2.0** | 120 parquet 分片 × 10,000 行（本次取 1,200,000 行） | **A** | 推理增强组件 |
-| SmallThoughts | [`SmallDoge/SmallThoughts`](https://huggingface.co/datasets/SmallDoge/SmallThoughts) | **Apache-2.0** | 102,000 行 | **A** | 推理增强组件 |
+| OpenThoughts3-1.2M | [`open-thoughts/OpenThoughts3-1.2M`](https://hf-mirror.com/datasets/open-thoughts/OpenThoughts3-1.2M) | **Apache-2.0** | 120 parquet 分片 × 10,000 行（本次取 1,200,000 行） | **A** | 推理增强组件 |
+| SmallThoughts | [`SmallDoge/SmallThoughts`](https://hf-mirror.com/datasets/SmallDoge/SmallThoughts) | **Apache-2.0** | 102,000 行 | **A** | 推理增强组件 |
 
 > ⚠️ **这两套是英文推理语料**，在澈思的路线里只作**推理能力增强组件**，**不是中文基座主粮**。
 > 中文基座语料见 §2。任何把 Stage-1 误读成「中文模型用中文语料训练」的表述都是错的。
