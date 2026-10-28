@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#111418">
+<title>看图猜一猜 · 84 张</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="description" content="一个 84 张图的趣味小测试：每张猜一下是 AI 画的还是真实照片。">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  background:#0e1116;color:#e9eef5;
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  display:flex;flex-direction:column;
+  height:100dvh;
+  padding-bottom:env(safe-area-inset-bottom);
+  -webkit-user-select:none;user-select:none;
+}
+
+/* ── 顶部进度 ── */
+#top{
+  flex:0 0 auto;padding:10px 16px 8px;
+  background:linear-gradient(180deg,#171c23,#131820);
+  border-bottom:1px solid #232b36;
+}
+#row1{display:flex;align-items:baseline;gap:10px;margin-bottom:7px}
+#num{font-size:17px;font-weight:700;color:#8ab4f8;font-variant-numeric:tabular-nums}
+#tip{font-size:12px;color:#64748b;margin-left:auto}
+#track{height:5px;background:#232b36;border-radius:99px;overflow:hidden}
+#fill{height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,#3b82f6,#22d3ee);transition:width .18s ease}
+
+/* ── 图片区 ── */
+#stage{flex:1 1 auto;display:flex;align-items:center;justify-content:center;
+  padding:10px 12px;min-height:0;position:relative}
+#pic{max-width:100%;max-height:100%;object-fit:contain;
+  border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.7);display:block}
+#load{position:absolute;color:#475569;font-size:14px}
+
+/* ── 底部按钮 ── */
+#bot{flex:0 0 auto;padding:10px 12px calc(12px + env(safe-area-inset-bottom));
+  display:flex;gap:10px;background:#131820;border-top:1px solid #232b36}
+.btn{
+  flex:1;border:0;border-radius:14px;padding:0;height:64px;
+  font:700 19px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  color:#fff;cursor:pointer;transition:transform .1s,filter .1s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+}
+.btn small{font-weight:400;font-size:11px;opacity:.72}
+.btn:active{transform:scale(.96);filter:brightness(1.18)}
+#bA{background:linear-gradient(160deg,#e0523f,#c93a2b);box-shadow:0 4px 14px rgba(224,82,63,.3)}
+#bR{background:linear-gradient(160deg,#2f9d68,#248056);box-shadow:0 4px 14px rgba(47,157,104,.3)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+
+/* ── 完成页 ── */
+#done{display:none;flex:1;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:24px 20px;overflow-y:auto;gap:16px}
+#done h1{font-size:23px;color:#4ade80;text-align:center;margin-top:8px}
+#done p{color:#94a3b8;font-size:14px;text-align:center;max-width:420px}
+#codebox{
+  width:100%;max-width:420px;background:#0a0d12;border:1px solid #2a3542;
+  border-radius:12px;padding:14px;font:600 15px/1.7 ui-monospace,Menlo,Consolas,monospace;
+  color:#7dd3fc;word-break:break-all;text-align:center;letter-spacing:.5px;
+  -webkit-user-select:all;user-select:all;
+}
+#copy{width:100%;max-width:420px;height:56px;border:0;border-radius:14px;
+  background:linear-gradient(160deg,#3b82f6,#2563eb);color:#fff;
+  font:700 17px/1 -apple-system,"PingFang SC",sans-serif;cursor:pointer;
+  box-shadow:0 4px 16px rgba(59,130,246,.35)}
+#copy:active{transform:scale(.97)}
+#copy.ok{background:linear-gradient(160deg,#22c55e,#16a34a)}
+#nick{
+  width:100%;max-width:420px;height:54px;border-radius:13px;
+  background:#161c24;border:1.5px solid #2a3542;color:#e9eef5;
+  font:600 17px/1 -apple-system,"PingFang SC",sans-serif;
+  padding:0 18px;text-align:center;outline:none;
+}
+#nick:focus{border-color:#3b82f6;background:#1a2230}
+#nick::placeholder{color:#4b586b;font-weight:400}
+#stat{color:#64748b;font-size:13px;text-align:center;line-height:1.8}
+#alt{font-size:13px;color:#475569;text-align:center}
+#alt a{color:#60a5fa;text-decoration:none}
+
+#toast{
+  position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));
+  transform:translate(-50%,10px) scale(.95);
+  background:rgba(24,32,44,.97);border:1px solid #334155;border-radius:14px;
+  padding:13px 20px;text-align:center;color:#e9eef5;font-size:15px;line-height:1.65;
+  box-shadow:0 10px 32px rgba(0,0,0,.75);opacity:0;transition:.3s;z-index:99;
+  pointer-events:none;white-space:nowrap;
+}
+#toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+#toast b{color:#60a5fa}
+
+/* ── 首屏说明 ── */
+#intro{display:flex;flex-direction:column;height:100%;padding:28px 22px;
+  gap:18px;overflow-y:auto;justify-content:center;max-width:520px;margin:0 auto}
+#intro h1{font-size:26px;line-height:1.35;text-align:center;
+  background:linear-gradient(90deg,#60a5fa,#22d3ee);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+#intro .card{background:#161c24;border:1px solid #232b36;border-radius:14px;padding:16px 18px}
+#intro ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+#intro li{display:flex;gap:11px;font-size:15px;color:#c7d2de;line-height:1.55}
+#intro li b{color:#e9eef5}
+.ico{flex:0 0 24px;height:24px;border-radius:7px;display:flex;align-items:center;
+  justify-content:center;font-size:13px;font-weight:700}
+.i1{background:#1e3a5f;color:#7dd3fc}
+.i2{background:#14532d;color:#86efac}
+.i3{background:#4a1d1d;color:#fca5a5}
+#go{height:58px;border:0;border-radius:14px;
+  background:linear-gradient(160deg,#3b82f6,#2563eb);color:#fff;
+  font:700 18px/1 -apple-system,"PingFang SC",sans-serif;cursor:pointer;margin-top:4px;
+  box-shadow:0 6px 20px rgba(59,130,246,.35)}
+#go:active{transform:scale(.97)}
+.note{font-size:12.5px;color:#64748b;text-align:center;line-height:1.7}
+
+@media (orientation:landscape) and (max-height:450px){
+  .btn{height:52px}
+  #top{padding:6px 14px 5px}
+  #row1{margin-bottom:4px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ 首屏说明 ══════ -->
+<div id="intro">
+  <h1>帮我看 84 张图<br>每张猜一下</h1>
+  <div class="card">
+    <ul>
+      <li><span class="ico i1">1</span><span>一共 <b>84 张图</b>，每张单独出现，你只判断一件事：<b>这张是 AI 画的，还是真实拍摄的？</b></span></li>
+      <li><span class="ico i2">2</span><span>凭<b>第一眼感觉</b>点就行，不要放大细看、不要反复琢磨。平均 5-8 秒一张。</span></li>
+      <li><span class="ico i3">3</span><span>整组做完约 <b>8-12 分钟</b>。中途可以点「← 上一张」改。</span></li>
+    </ul>
+  </div>
+  <div class="card" style="background:#131820">
+    <ul>
+      <li><span class="ico" style="background:#1c2430;color:#94a3b8">!</span><span style="font-size:14px">里面混了 <b>4 张特别明显的</b>（一眼就能看出来的插画/照片）。这是用来检查你有没有在认真看的，不是题目错了。</span></li>
+    </ul>
+  </div>
+  <button id="go">开始（84 张）</button>
+  <div class="note">做完会给你一串短码，复制发回给我就行</div>
+  <div class="note" style="margin-top:6px">
+    <a href="../" style="color:#60a5fa">澈思 Chesi AI</a> · 内部小实验
+  </div>
+</div>
+
+<!-- ══════ 作答区 ══════ -->
+<div id="top" style="display:none">
+  <div id="row1">
+    <span id="num">1 / 84</span>
+    <span id="tip">A = AI 画的　R = 真实照片</span>
+  </div>
+  <div id="track"><div id="fill"></div></div>
+</div>
+
+<div id="stage" style="display:none">
+  <img id="pic" alt="">
+  <div id="load">加载中…</div>
+</div>
+
+<div id="bot" style="display:none">
+  <button class="btn" id="bA">A<small>AI 画的</small></button>
+  <button class="btn" id="bR">R<small>真实照片</small></button>
+</div>
+
+<!-- ══════ 完成页 ══════ -->
+<div id="done">
+  <h1>✅ 全部完成，谢谢！</h1>
+  <p style="margin-bottom:-4px">最后一步：填个昵称，然后点下面那个蓝色按钮，<b style="color:#e9eef5">粘到微信发给我</b>就行。</p>
+  <input id="nick" type="text" maxlength="12" placeholder="你的昵称（比如：阿杰）"
+         autocomplete="off" autocorrect="off" spellcheck="false">
+  <button id="copy">复制并去微信粘贴</button>
+  <p id="stat"></p>
+  <details style="margin-top:8px;width:100%;max-width:420px">
+    <summary style="color:#64748b;font-size:13px;cursor:pointer;text-align:center">短码看不清 / 复制失败？</summary>
+    <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+      <div id="codebox">—</div>
+      <div id="alt" style="font-size:13px">也可以 <a id="dl" href="#">下载答案文件</a> 发给我</div>
+    </div>
+  </details>
+</div>
+
+<script>
+const N = 84;
+const answers = [];       // 0 = 真人, 1 = AI
+let idx = 0;
+let t0 = 0;
+const times = [];
+
+const $ = id => document.getElementById(id);
+const pic = $('pic'), load = $('load');
+
+/* ── 预加载全部图片 ──
+   注意：这个站点是「带 sharecode 的分享链接」托管，
+   静态资源也必须携带 ?sharecode=，否则 403。
+   这里从当前 URL 自动继承 sharecode 拼到每张图上。 */
+/* sharecode 仅用于 WorkBuddy 托管；GitHub Pages 无此参数，自动退化相对路径 */
+const SHARE = new URLSearchParams(location.search).get('sharecode') || '';
+const Q = SHARE ? ('?sharecode=' + SHARE) : '';
+const imgSrc = i => 'images/' + String(i).padStart(3, '0') + '.jpg' + Q;
+
+const imgs = [];
+let loaded = 0;
+for (let i = 1; i <= N; i++){
+  const im = new Image();
+  im.src = imgSrc(i);
+  im.onerror = () => {
+    // 典型的 sharecode 丢失场景
+    load.innerHTML = '图片加载失败<br><span style="font-size:12px;color:#ef4444">'
+      + '请用完整链接打开（必须包含 ?sharecode=…）</span>';
+  };
+  im.onload = () => { if (++loaded === N) load.style.display = 'none'; };
+  imgs.push(im);
+}
+
+function show(){
+  if (idx >= N){ finish(); return; }
+  pic.onload = () => { load.style.display = 'none'; };
+  pic.onerror = () => { load.style.display = 'block'; };
+  pic.src = imgs[idx].src;
+  $('num').textContent = (idx + 1) + ' / ' + N;
+  $('fill').style.width = (idx / N * 100) + '%';
+  t0 = Date.now();
+}
+
+function answer(v){
+  if (idx >= N) return;
+  answers[idx] = v;
+  times[idx] = (Date.now() - t0) / 1000;
+  idx++;
+  show();
+}
+
+$('bA').onclick = () => answer(1);
+$('bR').onclick = () => answer(0);
+
+/* 手势：左右滑也能选（左滑=上一张） */
+let sx = 0, sy = 0;
+const stage = $('stage');
+stage.addEventListener('touchstart', e => {
+  sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+}, {passive:true});
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  const dy = e.changedTouches[0].clientY - sy;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6){
+    if (dx > 0 && idx > 0){ idx--; answers.length = idx + 1; show(); }
+  }
+}, {passive:true});
+
+/* ── 短码编码：84 bit → base64url ── */
+function makeCode(ans){
+  const bytes = new Uint8Array(Math.ceil(ans.length / 8) + 2);
+  let bit = 0;
+  for (const a of ans){
+    if (a) bytes[bit >> 3] |= (128 >> (bit & 7));
+    bit++;
+  }
+  // 末字节存长度 + 校验
+  bytes[bytes.length - 2] = ans.length;
+  let sum = 0;
+  for (const a of ans) sum = (sum * 31 + a + 1) & 0xff;
+  bytes[bytes.length - 1] = sum;
+  let s = '';
+  for (const b of bytes) s += String.fromCharCode(b);
+  return 'W1' + btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+function finish(){
+  $('top').style.display = 'none';
+  $('stage').style.display = 'none';
+  $('bot').style.display = 'none';
+  $('done').style.display = 'flex';
+
+  const code = makeCode(answers);
+  $('codebox').textContent = code;
+  $('copy').dataset.code = code;
+
+  const fast = times.filter(t => t < 1.5).length;
+  const sorted = [...times].sort((a,b) => a - b);
+  const med = sorted[Math.floor(sorted.length/2)] || 0;
+  $('stat').innerHTML =
+    `共 ${answers.length} 题　中位耗时 ${med.toFixed(1)} 秒<br>` +
+    (fast / answers.length > 0.2
+      ? `<span style="color:#f59e0b">⚠️ 有 ${fast} 题不到 1.5 秒，可能看得太快了</span>`
+      : `看得很认真 👍`);
+
+  $('dl').onclick = () => {
+    const blob = new Blob([JSON.stringify(
+      answers.map((g,i) => ({id:i+1, guess:g, seconds:+(times[i]||0).toFixed(1)}))
+    , null, 1)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'answers.json';
+    a.click();
+  };
+}
+
+function copyText(txt){
+  return new Promise(async resolve => {
+    try { await navigator.clipboard.writeText(txt); return resolve(true); } catch(e){}
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.style.position='fixed'; ta.style.top='0'; ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    ta.setSelectionRange(0, txt.length);
+    let ok=false;
+    try { ok = document.execCommand('copy'); } catch(_){}
+    document.body.removeChild(ta);
+    resolve(ok);
+  });
+}
+
+$('copy').onclick = async () => {
+  const code = $('copy').dataset.code;
+  const nick = ($('nick').value || '').trim() || '匿名';
+  const btn = $('copy');
+  // 复制「整段微信消息」，朋友只需粘贴，不用自己拼
+  const msg = `【看图猜AI】${nick} 做完了\n${code}`;
+  const ok = await copyText(msg);
+  btn.textContent = ok ? '✓ 已复制！去微信粘贴给连先生' : '请展开下方手动复制';
+  btn.classList.add('ok');
+  if (ok) setTimeout(() => {
+    btn.textContent = '复制并去微信粘贴';
+    btn.classList.remove('ok');
+  }, 4000);
+};
+
+$('go').onclick = () => {
+  $('intro').style.display = 'none';
+  $('top').style.display = 'block';
+  $('stage').style.display = 'flex';
+  $('bot').style.display = 'flex';
+  show();
+  // 前 3 题给个引导提示，避免非专业朋友不知怎么点
+  const toast = document.createElement('div');
+  toast.id = 'toast';
+  toast.innerHTML = '这张是<b>画的</b>还是<b>拍的</b>？';
+  document.body.appendChild(toast);
+  requestAnimationFrame(()=>toast.classList.add('show'));
+  setTimeout(()=>{ toast.classList.remove('show'); setTimeout(()=>toast.remove(),400); }, 3400);
+};
+
+/* 防止双击缩放 */
+let lastTouch = 0;
+document.addEventListener('touchend', e => {
+  const now = Date.now();
+  if (now - lastTouch < 300) e.preventDefault();
+  lastTouch = now;
+}, {passive:false});
+</script>
+</body>
+</html>
