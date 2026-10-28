@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>复现指南 — 澈思 Chesi AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230f172a'/%3E%3Ctext x='50' y='68' font-size='54' text-anchor='middle' fill='%2360a5fa' font-family='sans-serif' font-weight='700'%3E澈%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#fff;--bg-soft:#f8fafc;--bg-card:#fff;--fg:#0f172a;--fg-soft:#475569;--fg-dim:#64748b;
+--line:#e2e8f0;--line-soft:#f1f5f9;--accent:#1d4ed8;--accent-soft:#eff6ff;--accent-fg:#1e40af;
+--code-bg:#0f172a;--code-fg:#e2e8f0;--shadow:0 1px 2px rgba(15,23,42,.04),0 4px 16px rgba(15,23,42,.06)}
+@media (prefers-color-scheme:dark){:root{--bg:#0a0e17;--bg-soft:#0f1520;--bg-card:#121a27;
+--fg:#e8eef7;--fg-soft:#a8b6c9;--fg-dim:#7b8a9e;--line:#1e2a3a;--line-soft:#16202e;
+--accent:#60a5fa;--accent-soft:#132033;--accent-fg:#93c5fd;--code-bg:#060a12;--code-fg:#c9d6e5;
+--shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25)}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font:16px/1.8 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{max-width:900px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:14px;height:56px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;color:var(--fg)}
+.logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(145deg,#1e3a8a,#1d4ed8);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.nav .sp{flex:1}.nav a.back{font-size:14px;color:var(--fg-soft)}
+main{max-width:900px;margin:0 auto;padding:44px 22px 80px}
+h1{font-size:clamp(25px,4.4vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.3;margin:0 0 10px}
+h2{font-size:clamp(19px,3vw,24px);font-weight:800;letter-spacing:-.015em;margin:44px 0 14px;padding-top:22px;border-top:1px solid var(--line)}
+h2:first-of-type{border-top:0;padding-top:0;margin-top:32px}
+h3{font-size:17px;font-weight:700;margin:28px 0 10px}
+h4{font-size:15.5px;font-weight:700;margin:22px 0 8px}
+p{margin:0 0 14px;color:var(--fg-soft);line-height:1.85}
+strong,b{color:var(--fg);font-weight:700}
+ul,ol{margin:0 0 16px 24px;color:var(--fg-soft);line-height:1.85}
+li{margin-bottom:5px}
+blockquote{border-left:3px solid var(--accent);background:var(--accent-soft);padding:13px 17px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14.5px;color:var(--fg-soft)}
+blockquote p:last-child{margin-bottom:0}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+code{background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.88em;color:var(--accent-fg);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:var(--code-bg);color:var(--code-fg);border-radius:12px;padding:16px 18px;overflow-x:auto;font-size:13.5px;line-height:1.7;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:0 0 18px;box-shadow:var(--shadow)}
+pre code{background:none;border:0;padding:0;color:inherit;font-size:inherit}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;margin:0 0 20px;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:480px}
+th{text-align:left;padding:11px 14px;font-weight:700;font-size:12.5px;color:var(--fg-dim);letter-spacing:.04em;text-transform:uppercase;background:var(--bg-soft);border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line-soft);color:var(--fg-soft);vertical-align:top}
+tr:last-child td{border-bottom:0}
+footer{max-width:900px;margin:0 auto;padding:26px 22px 50px;border-top:1px solid var(--line);font-size:13px;color:var(--fg-dim);line-height:1.9}
+@media(max-width:640px){main{padding:28px 18px 60px}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <a href="index.html" class="brand"><span class="logo">澈</span>澈思 Chesi</a>
+  <span class="sp"></span>
+  <a class="back" href="index.html">← 返回首页</a>
+</div></header>
+<main>
+<h1>复现 Stage-1 · Reproduce</h1>
+<blockquote><p>本文件让任何人在自己的机器上重建本次 Stage-1 full run（13.6M 参数 / 20,000 步 / eval 1.5618）。 全部材料均可公开获取，许可均为 Apache-2.0。</p></blockquote>
+<hr>
+<h2>0. 前置</h2>
+<div class="tw"><table><thead><tr><th>项</th><th>要求</th></tr></thead><tbody><tr><td>Python</td><td>3.10+</td></tr><tr><td>依赖</td><td><code>torch</code>（CUDA 或 CPU 均可）；其余全部为标准库（<code>stage1/</code> 四件套零第三方依赖）</td></tr><tr><td>磁盘</td><td>语料子集 ≥ 1 GB（完整 120 分片约 33 GB，见下）</td></tr><tr><td>显存</td><td>12 GB 级显卡可跑满速；CPU 也能跑，只是慢（README 的 26.1 分钟是 RTX 4080 的数字）</td></tr></tbody></table></div>
+<hr>
+<h2>1. 取 tokenizer（已在仓库内）</h2>
+<pre><code>tokenizer/
+├── tokenizer.json        # 自训 v1.1：vocab + special_tokens（&lt;pad&gt;=0 &lt;unk&gt;=1 &lt;bos&gt;=2 &lt;eos&gt;=3）
+├── chesi_tokenizer.py    # 纯 Python 零依赖编解码器
+├── train_tokenizer.py    # 从零训练脚本（字符级 + 频率阈值）
+├── extend_vocab_sft.py   # SFT 阶段扩表到全量 11,387
+└── TOKENIZER_REPORT.md   # 训练与验收报告</code></pre>
+<p><strong>Stage-1 使用哪一档</strong>：<code>stage1/data.py::load_tokenizer</code> 默认取 <strong>stage1 档</strong>——词表按字符频率升序， 字符 id 从 4 开始，保留前 <code>stage1_vocab_size = 7,276</code> 个（id 4..7279），即全量 11,387 的高频子集。 全量档用 <code>full_vocab=True</code>（Stage 2+ 用）。</p>
+<hr>
+<h2>2. 取语料</h2>
+<p>本次 full run 的语料（两套，均为 <strong>Apache-2.0</strong>）：</p>
+<div class="tw"><table><thead><tr><th>数据集</th><th>HF 仓库</th><th>规模</th><th>许可</th></tr></thead><tbody><tr><td>OpenThoughts3</td><td><a href="https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M"><code>open-thoughts/OpenThoughts3-1.2M</code></a></td><td>120 个 parquet 分片 × 10,000 行</td><td>Apache-2.0</td></tr><tr><td>SmallThoughts</td><td><a href="https://huggingface.co/datasets/SmallDoge/SmallThoughts"><code>SmallDoge/SmallThoughts</code></a></td><td>102,000 行</td><td>Apache-2.0</td></tr></tbody></table></div>
+<p><strong>国内直连</strong>（推荐，走镜像，下载快很多）：</p>
+<pre><code>export HF_ENDPOINT=https://hf-mirror.com
+python -c &quot;
+from huggingface_hub import snapshot_download
+snapshot_download(&#x27;open-thoughts/OpenThoughts3-1.2M&#x27;, repo_type=&#x27;dataset&#x27;,
+                  local_dir=&#x27;./raw/openthoughts3&#x27;, max_workers=8)
+snapshot_download(&#x27;SmallDoge/SmallThoughts&#x27;, repo_type=&#x27;dataset&#x27;,
+                  local_dir=&#x27;./raw/smallthoughts&#x27;)
+&quot;</code></pre>
+<blockquote><p>本项目自有许可台账：<code>dataset_acquisition/DATASET_INDEX.md</code>（809 文件 / 58.5GB 资产索引）与 <code>dataset_acquisition/LICENSE_AUDIT_20261021.md</code>（A 级宽松 13 项 / B 级 3 项 / 排除 1 项）。 本页两个数据集的许可经 HF 数据集卡片（<code>license:apache-2.0</code>）与本项目 2026-10-21 审计双重确认。</p></blockquote>
+<hr>
+<h2>3. 转换成训练格式</h2>
+<p><code>stage1/data.py</code> 读 <strong>jsonl，每行一个 <code>{&quot;text&quot;: &quot;...&quot;}</code></strong>。转换脚本：</p>
+<pre><code># parquet -&gt; {&quot;text&quot;: ...} jsonl
+import json, glob, pyarrow.parquet as pq
+out = open(&quot;corpus.jsonl&quot;, &quot;w&quot;, encoding=&quot;utf-8&quot;)
+for f in sorted(glob.glob(&quot;raw/openthoughts3/**/*.parquet&quot;, recursive=True)):
+    t = pq.read_table(f)
+    # OpenThoughts3 的 conversations 字段是多轮消息，取全部轮次拼接
+    for row in t.to_pylist():
+        convs = row.get(&quot;conversations&quot;) or []
+        if not convs:
+            continue
+        text = &quot;\n&quot;.join(
+            (c.get(&quot;value&quot;) if isinstance(c, dict) else str(c)) or &quot;&quot; for c in convs
+        ).strip()
+        if text:
+            out.write(json.dumps({&quot;text&quot;: text}, ensure_ascii=False) + &quot;\n&quot;)
+out.close()</code></pre>
+<p>本次 full run 实际用量：<strong>OpenThoughts3 1,200,000 行 + SmallThoughts 102,000 行</strong> （两者均为英文推理语料；在澈思的路线里它们只作<strong>推理能力增强组件</strong>， 中文基座主粮走 SkyPile-150B head 层，见 README「路线图 Stage-2」）。</p>
+<hr>
+<h2>4. 训练</h2>
+<pre><code>python stage1/train.py --corpus ./corpus.jsonl --steps 20000 --device cuda</code></pre>
+<p>多卡（DDP）：</p>
+<pre><code>torchrun --nproc_per_node=4 stage1/train.py --corpus ./corpus.jsonl --steps 20000 --device auto</code></pre>
+<p>训练过程写 <code>history.json</code>（<code>cfg</code> / <code>backend</code> / <code>history</code> 三段，<code>history</code> 每 20 步一条 <code>{step, loss, lr, eval}</code>）。仓库里的 <code>docs/stage1_loss_curve.svg</code> 就是由它生成的：</p>
+<pre><code>python scripts/plot_stage1_curve.py --history &lt;你的&gt;/history.json --out docs</code></pre>
+<p>（零依赖，纯标准库；本机若无 matplotlib 就只出 SVG，这也是本仓库采用 SVG 的原因。）</p>
+<hr>
+<h2>5. 验收（四判据）</h2>
+<pre><code>python stage1/verify_stage1.py --mode full --corpus ./corpus.jsonl</code></pre>
+<div class="tw"><table><thead><tr><th>判据</th><th>含义</th><th>本次实测</th></tr></thead><tbody><tr><td>①</td><td>eval loss &lt; 1.8</td><td><strong>1.5618</strong>（32-block 独立复评）—— 首次达标</td></tr><tr><td>②</td><td>严格式：窗口均值每窗不增</td><td><strong>FAIL</strong>（1.3695 → 1.3717，+0.16%，落在收敛噪声地板内）</td></tr><tr><td>②&#x27;</td><td>趋势式：首尾窗口对比</td><td><strong>PASS</strong>（2.6436 → 1.3732，降幅 48.1%）</td></tr><tr><td>③</td><td>与独立朴素参考实现的损失相对差 &lt; 15%</td><td><strong>1.85e-07</strong></td></tr><tr><td>④</td><td>同种子两次运行逐步损失 bitwise 相等</td><td><strong>PASS</strong></td></tr></tbody></table></div>
+<hr>
+<h2>6. ⚠️ 关于「能不能复现出 1.5618 这个数」的诚实说明</h2>
+<p><strong>绝对值依赖具体语料与切分</strong>。判据①的 1.5618 是在<strong>本次那一份语料、按 <code>PackedCorpus</code> 的块顺序、 在指定 offset 上取的 32 个块</strong>上复评出来的（<code>verify_stage1.py::get_eval_batch(n_blocks, skip)</code>）。 你若用：</p>
+<ul>
+<li>不同的语料子集（哪怕同为 OpenThoughts3，但抽了不同分片 / 不同行数）</li>
+<li>不同的 parquet→jsonl 转换方式（拼接策略不同 → 块边界不同）</li>
+<li>不同的 <code>--text-field</code> 或不同的 tokenizer 档位</li>
+</ul>
+<p>→ <strong>eval 绝对值会不同</strong>。这是正常的，不是造假。</p>
+<p><strong>保证可以复现的是「性质」而不是「绝对值」</strong>：</p>
+<ul>
+<li>②/②&#x27; 收敛形态（先陡降后进噪声地板，趋势降幅 ~48%）</li>
+<li>③ 与朴素参考实现的一致性（相对差在 1e-7 量级，因为两者是同一份权重同一批块上的两种实现）</li>
+<li>④ 同种子 bitwise 一致（这是<strong>纯确定性性质</strong>，与语料无关，最值得你先验一遍）</li>
+</ul>
+<p><strong>建议的复现顺序</strong>：先只验 ④（同种子跑两次，比对逐步 loss 是否逐位相同）→ 再验 ③ → 最后看 ①/② 的形态。</p>
+<hr>
+<h2>7. 与本次 full run 的差异说明</h2>
+<div class="tw"><table><thead><tr><th>项</th><th>本次</th><th>说明</th></tr></thead><tbody><tr><td>硬件</td><td>单张 RTX 4080 Laptop GPU（torch 2.5.1, capability 8.9）</td><td>4080/4090/A10 均可，曲线形态一致</td></tr><tr><td>昇腾 910B / C500 / BI-V100</td><td><strong>未实测</strong></td><td>trainer 设备探测链 <code>cuda → npu → xpu → musa → cpu</code> 已就绪，昇腾验证随启智社区三级冒烟进行</td></tr><tr><td>CPU 通道</td><td>已实测（bs=4 时与 CUDA 曲线差 &lt;0.4%）</td><td>bs=2 时因小 batch 梯度噪声会触发判据② FAIL，见 <code>stage1/README.md</code> §4</td></tr><tr><td>语料</td><td>OpenThoughts3 1.2M 行 + SmallThoughts 102,000 行</td><td>见 §2、§3</td></tr></tbody></table></div>
+<hr>
+<p><em>发现任何与本文不符的地方，请开 issue。口径错了比数字错了更伤人，我们宁可被指出来。</em></p>
+</main>
+<footer>
+  代码与权重：<b>Apache-2.0</b>。本页所有数字均来自实测，带口径；未实测项已明确标注。<br>
+  <a href="index.html">澈思 Chesi AI</a> ·
+  <a href="https://github.com/Chesi-AI-Models/Chesi-AI">GitHub</a> ·
+  <a href="https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1">HuggingFace</a>
+</footer>
+</body>
+</html>

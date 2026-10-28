@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>语料台账 — 澈思 Chesi AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230f172a'/%3E%3Ctext x='50' y='68' font-size='54' text-anchor='middle' fill='%2360a5fa' font-family='sans-serif' font-weight='700'%3E澈%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#fff;--bg-soft:#f8fafc;--bg-card:#fff;--fg:#0f172a;--fg-soft:#475569;--fg-dim:#64748b;
+--line:#e2e8f0;--line-soft:#f1f5f9;--accent:#1d4ed8;--accent-soft:#eff6ff;--accent-fg:#1e40af;
+--code-bg:#0f172a;--code-fg:#e2e8f0;--shadow:0 1px 2px rgba(15,23,42,.04),0 4px 16px rgba(15,23,42,.06)}
+@media (prefers-color-scheme:dark){:root{--bg:#0a0e17;--bg-soft:#0f1520;--bg-card:#121a27;
+--fg:#e8eef7;--fg-soft:#a8b6c9;--fg-dim:#7b8a9e;--line:#1e2a3a;--line-soft:#16202e;
+--accent:#60a5fa;--accent-soft:#132033;--accent-fg:#93c5fd;--code-bg:#060a12;--code-fg:#c9d6e5;
+--shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25)}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font:16px/1.8 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{max-width:900px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:14px;height:56px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px;color:var(--fg)}
+.logo{width:28px;height:28px;border-radius:8px;background:linear-gradient(145deg,#1e3a8a,#1d4ed8);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.nav .sp{flex:1}.nav a.back{font-size:14px;color:var(--fg-soft)}
+main{max-width:900px;margin:0 auto;padding:44px 22px 80px}
+h1{font-size:clamp(25px,4.4vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.3;margin:0 0 10px}
+h2{font-size:clamp(19px,3vw,24px);font-weight:800;letter-spacing:-.015em;margin:44px 0 14px;padding-top:22px;border-top:1px solid var(--line)}
+h2:first-of-type{border-top:0;padding-top:0;margin-top:32px}
+h3{font-size:17px;font-weight:700;margin:28px 0 10px}
+h4{font-size:15.5px;font-weight:700;margin:22px 0 8px}
+p{margin:0 0 14px;color:var(--fg-soft);line-height:1.85}
+strong,b{color:var(--fg);font-weight:700}
+ul,ol{margin:0 0 16px 24px;color:var(--fg-soft);line-height:1.85}
+li{margin-bottom:5px}
+blockquote{border-left:3px solid var(--accent);background:var(--accent-soft);padding:13px 17px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14.5px;color:var(--fg-soft)}
+blockquote p:last-child{margin-bottom:0}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+code{background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.88em;color:var(--accent-fg);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:var(--code-bg);color:var(--code-fg);border-radius:12px;padding:16px 18px;overflow-x:auto;font-size:13.5px;line-height:1.7;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:0 0 18px;box-shadow:var(--shadow)}
+pre code{background:none;border:0;padding:0;color:inherit;font-size:inherit}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;margin:0 0 20px;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:480px}
+th{text-align:left;padding:11px 14px;font-weight:700;font-size:12.5px;color:var(--fg-dim);letter-spacing:.04em;text-transform:uppercase;background:var(--bg-soft);border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line-soft);color:var(--fg-soft);vertical-align:top}
+tr:last-child td{border-bottom:0}
+footer{max-width:900px;margin:0 auto;padding:26px 22px 50px;border-top:1px solid var(--line);font-size:13px;color:var(--fg-dim);line-height:1.9}
+@media(max-width:640px){main{padding:28px 18px 60px}}
+</style>
+</head>
+<body>
+<header><div class="nav">
+  <a href="index.html" class="brand"><span class="logo">澈</span>澈思 Chesi</a>
+  <span class="sp"></span>
+  <a class="back" href="index.html">← 返回首页</a>
+</div></header>
+<main>
+<h1>语料台账 · Corpus Ledger</h1>
+<blockquote><p>澈思（Chesi）AI 的全部训练语料，按用途分组，逐条登记<strong>来源 / 许可 / 体量 / 准入等级</strong>。 准入等级定义（A=宽松可商用、B=有条件、排除=不可用）见 <code>dataset_acquisition/LICENSE_AUDIT_20261021.md</code>。 <strong>本页只登记公开可查的语料</strong>；内部文件级索引（809 文件 / 58.5 GB）保留在项目内部，不公开本地路径结构。 原则：① 基座语料只用<strong>可商用的开源人类语料</strong> ② <strong>不使用任何外部模型生成的数据</strong>（蒸馏禁令） ③ 每条数据都能指到公开来源</p></blockquote>
+<hr>
+<h2>0. 许可等级速查</h2>
+<div class="tw"><table><thead><tr><th>等级</th><th>含义</th><th>用法</th></tr></thead><tbody><tr><td><strong>A</strong></td><td>宽松许可（MIT / Apache-2.0 / CC-BY 等），可商用</td><td>可直接进训练</td></tr><tr><td><strong>B</strong></td><td>有条件（自定义协议 / 逐项核实 / 仅研究用）</td><td>商用前需单独处理，训练中仅用其 A 级子集</td></tr><tr><td><strong>排除</strong></td><td>传染性或禁止性许可（如 CC-BY-SA 混入 Apache-2.0 项目）</td><td><strong>不得进任何训练集</strong></td></tr></tbody></table></div>
+<hr>
+<h2>1. Stage-1 预训练语料（英文推理 · 推理能力增强组件）</h2>
+<div class="tw"><table><thead><tr><th>数据集</th><th>来源</th><th>许可</th><th>体量</th><th>等级</th><th>在澈思里的位置</th></tr></thead><tbody><tr><td>OpenThoughts3-1.2M</td><td><a href="https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M"><code>open-thoughts/OpenThoughts3-1.2M</code></a></td><td><strong>Apache-2.0</strong></td><td>120 parquet 分片 × 10,000 行（本次取 1,200,000 行）</td><td><strong>A</strong></td><td>推理增强组件</td></tr><tr><td>SmallThoughts</td><td><a href="https://huggingface.co/datasets/SmallDoge/SmallThoughts"><code>SmallDoge/SmallThoughts</code></a></td><td><strong>Apache-2.0</strong></td><td>102,000 行</td><td><strong>A</strong></td><td>推理增强组件</td></tr></tbody></table></div>
+<blockquote><p>⚠️ <strong>这两套是英文推理语料</strong>，在澈思的路线里只作<strong>推理能力增强组件</strong>，<strong>不是中文基座主粮</strong>。 中文基座语料见 §2。任何把 Stage-1 误读成「中文模型用中文语料训练」的表述都是错的。</p></blockquote>
+<p><strong>许可确认方式</strong>：HF 数据集卡片 <code>license: apache-2.0</code> 标签 + 本项目 2026-10-21 许可审计，两处一致。</p>
+<hr>
+<h2>2. Stage-2 中文基座语料（待准入）</h2>
+<div class="tw"><table><thead><tr><th>候选</th><th>来源</th><th>许可</th><th>体量</th><th>等级</th><th>状态</th></tr></thead><tbody><tr><td><strong>SkyPile-150B</strong></td><td><code>Skywork/SkyPile-150B</code>（hf-mirror / ModelScope）</td><td>Skywork 社区协议（<strong>支持商用</strong>）</td><td>全量 665 GB / 437 分片；<strong>已下载 head 层 39 分片 = 61 GB ≈ 14B+ token</strong></td><td>A（待登记）</td><td>⏳ token 统计 + 质量抽检 + 准入登记进行中</td></tr><tr><td>Wanjuan 1.0</td><td>上海 AI Lab</td><td>开源协议</td><td>552 GB</td><td>待核</td><td>备选（补足 ~19GB 缺口）</td></tr><tr><td>CLUECorpus2020</td><td>官方仓库</td><td>宽松</td><td>100 GB</td><td>A</td><td>备选（Stage-1 级别只需 50 MB）</td></tr><tr><td>中文维基百科</td><td>Wikimedia dumps</td><td>CC BY-SA</td><td>~20 GB</td><td>B（SA 传染）</td><td>备选，单用不与其他数据混合</td></tr><tr><td>MNBVC / CCI3.0-HQ</td><td>社区发布</td><td>MIT / 需守协议</td><td>5.4 TB</td><td>A/B</td><td>备选</td></tr><tr><td>WuDaoCorpora</td><td>智源</td><td>需申请</td><td>200 GB</td><td>B（需申请）</td><td>备选</td></tr></tbody></table></div>
+<p><strong>准入流程</strong>：① 逐条登记许可与等级 ② 全量 token 统计 ③ 质量抽检（重复率 / 语言分布 / 乱码 / 模板噪声）④ 写入 License Ledger 后才允许进训练集</p>
+<hr>
+<h2>3. SFT / 人格数据池（Stage-3 候选）</h2>
+<div class="tw"><table><thead><tr><th>池</th><th>组成</th><th>体量</th><th>等级</th></tr></thead><tbody><tr><td><strong>merged 主池</strong></td><td>huatuo 46.169% / soulchat 44.252% / g1 基础池 3.869% / psyqa 2.688% / duconv 2.560% / kdconv 0.462% / netease 3.142%（source_id 口径）</td><td><strong>775,747</strong></td><td>A 13 / B 3 混合，逐源见审计</td></tr><tr><td><strong>gap_fill 池</strong></td><td>OpenGuardrailsMixZh 13,500（<strong>2026-10-26 已随机重抽去偏</strong>）+ aya_filtered 5,099 + ToolACE 5,000（英文，实测中文占比 0.17%）+ aya_dataset 4,612 + oasst1 1,069 + truthful_qa 817 + 100PoisonMpts 229（仅 expert）</td><td><strong>30,325</strong></td><td>同上，unk 0.24%</td></tr><tr><td><strong>锚定集</strong></td><td>math 1,783 + code 1,304（ds 版主用，冻结）；三版本转换后共 16,650 行 messages</td><td>3,087 / 16,650</td><td>A（math/code 自建）</td></tr><tr><td><strong>金标（人格）</strong></td><td>真人写实标注集（ultimate / v2 / final / train / 4000 五版）</td><td>36,716 / 30,077 / 29,048 / 28,277 / 4,000</td><td>内部资产</td></tr></tbody></table></div>
+<blockquote><p>目标 50 万条 SFT；当前候选池 80.6 万，<strong>配比与筛选未冻结</strong>。</p></blockquote>
+<hr>
+<h2>4. 明确排除 / 降级的语料</h2>
+<div class="tw"><table><thead><tr><th>数据集</th><th>原因</th><th>处置</th></tr></thead><tbody><tr><td>COIG Leetcode Instructions（11,737 条中文代码题）</td><td>子集自带 <strong>CC-BY-SA-4.0</strong>（数据卡整体标 apache-2.0，但子集 README 写明源自 doocs/leetcode）——SA 传染，混入即污染整个数据集</td><td><strong>排除</strong>（方案 A：弃用，不进任何训练集）</td></tr><tr><td><code>chesi_10b_corpus</code>（1,174,481 行 / 16.9 亿 token）</td><td>实测 <strong>98% 由 DeepSeek-V4-Pro 生成</strong>（bro_gen 58,823/60,000）</td><td><strong>降级</strong>：不作为基座语料，仅作「继续预训练 / 学科增强」语料使用，且<strong>永久标注来源</strong></td></tr><tr><td><code>star_core_experts</code> D01-D20（42,300 行）</td><td>同上，模型生成</td><td><strong>降级</strong>：同上</td></tr><tr><td>网赚联盟 / PayPal 账户间私人转账类款项</td><td>万里汇侧不受理（非电商平台资金）</td><td>不作为语料来源</td></tr></tbody></table></div>
+<hr>
+<h2>5. 数据准入四原则（项目自述）</h2>
+<ol>
+<li><strong>基座语料</strong>：只用可商用的开源人类语料，按来源逐条登记许可与等级（License Ledger）</li>
+<li><strong>蒸馏禁令</strong>：不允许用外部模型生成数据训练自己的模型；外部模型仅作评测参照</li>
+<li><strong>SFT / 人格 / 七步链</strong>：永远纯人工 + 自有模型 STaR 自产</li>
+<li><strong>诚实陈述</strong>：所有数字带口径（样本量 / 时间 / 来源）；未实测项明确标注「未实测」</li>
+</ol>
+<hr>
+<h2>6. 待补</h2>
+<ul>
+<li>SkyPile-150B head 层的<strong>全量 token 统计</strong>与<strong>质量抽检报告</strong>（Stage-2 准入前置）</li>
+<li>SFT 池的<strong>配比冻结</strong>与<strong>筛选规则</strong>（目标 50 万）</li>
+<li>各源的<strong>逐文件级索引</strong>（内部台账，不公开本地路径）</li>
+</ul>
+<p><em>发现任何登记与实际不符的地方，请开 issue —— 台账错了比数据错了更危险。</em></p>
+</main>
+<footer>
+  代码与权重：<b>Apache-2.0</b>。本页所有数字均来自实测，带口径；未实测项已明确标注。<br>
+  <a href="index.html">澈思 Chesi AI</a> ·
+  <a href="https://github.com/Chesi-AI-Models/Chesi-AI">GitHub</a> ·
+  <a href="https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1">HuggingFace</a>
+</footer>
+</body>
+</html>
