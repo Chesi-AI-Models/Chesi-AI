@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>隐私说明 · 看图猜 AI</title>
+<style>
+:root{--bg:#0e1116;--card:#161c24;--line:#232b36;--fg:#e9eef5;--fg2:#c7d2de;--dim:#7b8798;--ok:#4ade80;--accent:#60a5fa}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font:16px/1.8 system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:26px 20px 60px;max-width:640px;margin:0 auto}
+h1{font-size:22px;font-weight:800;margin-bottom:6px}
+.sub{color:var(--dim);font-size:13.5px;margin-bottom:22px}
+h2{font-size:16px;font-weight:700;margin:26px 0 10px;padding-top:18px;border-top:1px solid var(--line)}
+h2:first-of-type{border-top:0;padding-top:0}
+p{color:var(--fg2);margin-bottom:11px;font-size:14.5px}
+ul{margin:0 0 14px 20px;color:var(--fg2);font-size:14.5px}
+li{margin-bottom:6px}
+code{background:#0a0d12;border-radius:4px;padding:1px 6px;font-size:.9em;color:var(--accent);font-family:ui-monospace,Menlo,Consolas,monospace}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.box.ok{border-color:#166534;background:#0d1f16}
+.box.ok b{color:var(--ok)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
+th{text-align:left;padding:9px 12px;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;background:#111720;border-bottom:1px solid var(--line)}
+td{padding:9px 12px;border-bottom:1px solid #1a2130;color:var(--fg2);vertical-align:top}
+tr:last-child td{border-bottom:0}
+a{color:var(--accent);text-decoration:none}
+footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--dim)}
+</style>
+</head>
+<body>
+
+<h1>隐私说明</h1>
+<div class="sub">本页说明「看图猜 AI」这个小测试收集了什么、没收集什么。最后更新 2026-10-28。</div>
+
+<div class="box ok">
+  <b>一句话：页面上什么数据都不会发到任何服务器。</b><br>
+  你的答案只存在你自己手机浏览器的内存里，做完当场算成一串短码，
+  由你自己复制后发给发起人。关掉页面，数据就没了。
+</div>
+
+<h2>1. 收集的信息</h2>
+<table>
+<thead><tr><th>项目</th><th>是否收集</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>你的 84 个答案（A / R）</td><td>是（仅本地）</td><td>存在浏览器内存里，用来在你手机上算出短码</td></tr>
+<tr><td>每题的思考耗时</td><td>是（仅本地）</td><td>用于判断有没有认真看图，不离开你的设备</td></tr>
+<tr><td>昵称</td><td>可选</td><td>只是为了让发起人区分是谁交的，随便写、不写也行</td></tr>
+<tr><td>姓名 / 手机号 / 邮箱</td><td><b>不收集</b></td><td>页面上根本没有这些输入框</td></tr>
+<tr><td>IP / 设备型号 / 位置</td><td><b>不收集</b></td><td>没有统计代码，没有后端接口</td></tr>
+<tr><td>Cookie / 本地存储 / 缓存</td><td><b>不使用</b></td><td>没有 <code>cookie</code>、<code>localStorage</code>、<code>sessionStorage</code></td></tr>
+</tbody>
+</table>
+
+<h2>2. 页面上那个脚本在做什么</h2>
+<p>页面里有一小段内嵌 JavaScript，它只做四件事：</p>
+<ul>
+<li>记下你点了 A 还是 R（存在内存变量里）</li>
+<li>算进度条该走到哪</li>
+<li>答完后把那 84 个 0/1 压成一串约 20 字符的短码（含校验和）</li>
+<li>把短码复制到你的剪贴板（只在你自己点「复制」按钮时才做）</li>
+</ul>
+<p><b>它没有</b>任何 <code>fetch</code> / <code>XMLHttpRequest</code> / <code>sendBeacon</code> 调用，
+<b>不会</b>向任何服务器发送数据，<b>不会</b>读取你的通讯录、相册、定位、剪贴板内容。</p>
+
+<h2>3. 一次完整使用的网络请求清单</h2>
+<div class="box">
+实测（清空缓存后完整答完 84 题）：<br>
+总请求 <b>85</b> 次 = 1 个 HTML + 84 张图片<br>
+全部是 <code>GET</code>，全部指向 <code>chesi-ai-models.github.io</code><br>
+<b>零第三方请求</b>：没有 Google Analytics、没有百度统计、没有广告 SDK、没有字体 CDN
+</div>
+
+<h2>4. 短码是怎么保证不乱码的</h2>
+<p>84 个答案按位压成 11 字节，加 1 字节长度、1 字节校验和，再做 base64url 编码。
+总共约 20 个字符，微信里发不会断行。</p>
+<p>因为带校验和，少复制一个字符会立刻报「校验失败」，不会静默算错。</p>
+<p>短码里<b>只有</b>那 84 个 0/1，<b>不含</b>任何身份信息。</p>
+
+<h2>5. 发起人拿到之后会怎么用</h2>
+<ul>
+<li>只用于统计「普通人能不能分辨 AI 生成图与真实照片」这一个问题</li>
+<li>只汇总出识别率与置信区间，<b>不公开任何单个人的答题明细</b></li>
+<li>不会用于商业推广、不会转卖给第三方、不会用于训练模型</li>
+</ul>
+
+<h2>6. 想撤回怎么办</h2>
+<p>因为没有账号、没有后端、没有数据库，只要<b>不把短码发出去</b>，
+发起人就完全不知道你做过这个测试。发出去之后想让数据作废，直接告诉发起人即可。</p>
+
+<h2>7. 技术细节（可以自己核）</h2>
+<ul>
+<li>整站是纯静态托管在 GitHub Pages，没有服务端程序</li>
+<li>页面源码可以直接右键「查看源代码」逐行看，没有压缩混淆</li>
+<li>域名 <code>chesi-ai-models.github.io</code> 属于开源项目
+  <a href="https://github.com/Chesi-AI-Models/Chesi-AI" target="_blank" rel="noopener">Chesi-AI</a>（Apache-2.0）</li>
+</ul>
+
+<footer>
+  <a href="./">← 返回答题页</a> ·
+  <a href="../">澈思 Chesi AI</a>
+</footer>
+
+</body>
+</html>
