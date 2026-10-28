@@ -62,7 +62,7 @@ footer{max-width:900px;margin:0 auto;padding:26px 22px 50px;border-top:1px solid
 <div class="tw"><table><thead><tr><th>等级</th><th>含义</th><th>用法</th></tr></thead><tbody><tr><td><strong>A</strong></td><td>宽松许可（MIT / Apache-2.0 / CC-BY 等），可商用</td><td>可直接进训练</td></tr><tr><td><strong>B</strong></td><td>有条件（自定义协议 / 逐项核实 / 仅研究用）</td><td>商用前需单独处理，训练中仅用其 A 级子集</td></tr><tr><td><strong>排除</strong></td><td>传染性或禁止性许可（如 CC-BY-SA 混入 Apache-2.0 项目）</td><td><strong>不得进任何训练集</strong></td></tr></tbody></table></div>
 <hr>
 <h2>1. Stage-1 预训练语料（英文推理 · 推理能力增强组件）</h2>
-<div class="tw"><table><thead><tr><th>数据集</th><th>来源</th><th>许可</th><th>体量</th><th>等级</th><th>在澈思里的位置</th></tr></thead><tbody><tr><td>OpenThoughts3-1.2M</td><td><a href="https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M"><code>open-thoughts/OpenThoughts3-1.2M</code></a></td><td><strong>Apache-2.0</strong></td><td>120 parquet 分片 × 10,000 行（本次取 1,200,000 行）</td><td><strong>A</strong></td><td>推理增强组件</td></tr><tr><td>SmallThoughts</td><td><a href="https://huggingface.co/datasets/SmallDoge/SmallThoughts"><code>SmallDoge/SmallThoughts</code></a></td><td><strong>Apache-2.0</strong></td><td>102,000 行</td><td><strong>A</strong></td><td>推理增强组件</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>数据集</th><th>来源</th><th>许可</th><th>体量</th><th>等级</th><th>在澈思里的位置</th></tr></thead><tbody><tr><td>OpenThoughts3-1.2M</td><td><a href="https://hf-mirror.com/datasets/open-thoughts/OpenThoughts3-1.2M"><code>open-thoughts/OpenThoughts3-1.2M</code></a></td><td><strong>Apache-2.0</strong></td><td>120 parquet 分片 × 10,000 行（本次取 1,200,000 行）</td><td><strong>A</strong></td><td>推理增强组件</td></tr><tr><td>SmallThoughts</td><td><a href="https://hf-mirror.com/datasets/SmallDoge/SmallThoughts"><code>SmallDoge/SmallThoughts</code></a></td><td><strong>Apache-2.0</strong></td><td>102,000 行</td><td><strong>A</strong></td><td>推理增强组件</td></tr></tbody></table></div>
 <blockquote><p>⚠️ <strong>这两套是英文推理语料</strong>，在澈思的路线里只作<strong>推理能力增强组件</strong>，<strong>不是中文基座主粮</strong>。 中文基座语料见 §2。任何把 Stage-1 误读成「中文模型用中文语料训练」的表述都是错的。</p></blockquote>
 <p><strong>许可确认方式</strong>：HF 数据集卡片 <code>license: apache-2.0</code> 标签 + 本项目 2026-10-21 许可审计，两处一致。</p>
 <hr>
@@ -97,7 +97,7 @@ footer{max-width:900px;margin:0 auto;padding:26px 22px 50px;border-top:1px solid
   代码与权重：<b>Apache-2.0</b>。本页所有数字均来自实测，带口径；未实测项已明确标注。<br>
   <a href="index.html">澈思 Chesi AI</a> ·
   <a href="https://github.com/Chesi-AI-Models/Chesi-AI">GitHub</a> ·
-  <a href="https://huggingface.co/Chesi-AI-Models/Chesi-AI-stage1">HuggingFace</a>
+  <a href="https://hf-mirror.com/Chesi-AI-Models/Chesi-AI-stage1">HuggingFace</a>
 </footer>
 </body>
 </html>
