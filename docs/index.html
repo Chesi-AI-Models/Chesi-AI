@@ -95,10 +95,13 @@ header{
   font-size:clamp(28px,5.2vw,44px);line-height:1.28;letter-spacing:-.025em;
   font-weight:800;margin-bottom:18px;
 }
+.hero h1 br{display:none}
+@media(min-width:700px){.hero h1 br{display:block}}
 .hero h1 .grad{
   background:linear-gradient(100deg,#1d4ed8,#0891b2);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
+.nw{white-space:nowrap}
 .hero .lead{font-size:clamp(15px,2vw,18px);color:var(--fg-soft);max-width:760px;line-height:1.8}
 .hero .lead b{color:var(--fg);font-weight:700}
 .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
@@ -235,7 +238,7 @@ footer .meta{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);f
 
 <div class="hero">
 <div class="wrap">
-  <h1>从零训练的中文<span class="grad">人格化多模态</span><br>小模型</h1>
+  <h1>从零训练的中文<span class="grad nw">人格化多模态</span><br><span class="nw">小模型</span></h1>
   <p class="lead">
     一个独立开发者从零开始的公开实验：<b>不用任何外部模型当基座，不用任何模型生成训练数据</b>。
     全部代码、语料准入口径与训练日志公开可查。
