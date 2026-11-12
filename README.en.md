@@ -62,8 +62,14 @@ full 11,387, with 100% round-trip consistency across four datasets.
 
 **Device-agnostic**: detection chain `cuda → npu → xpu → musa → cpu`; CPU and CUDA curves differ
 by <0.4% at batch size 4 (measured).
-⚠️ **Ascend 910B / C500 / BI-V100 have NOT been measured yet** — the device chain is ready; actual
-verification happens during the OpenI three-stage smoke run.
+⚠️ **This repo's ChesiGPT trainer has NOT been measured on Ascend yet** — the device chain is ready;
+actual verification happens during the OpenI three-stage smoke run.
+(Note: we ran a **separate, unrelated Qwen2.5-7B LoRA environment smoke test** on `Ascend910B2`
+(61.0 GB) to validate the container startup / operator availability / checkpoint write / inference
+chain on domestic compute; a 12 KB log is retained. **That run is unrelated to ChesiGPT in this
+repo** — it used an external base model purely for environment validation, not as a Chesi
+self-trained result. Its output (adapter) does not enter any Chesi product and is not fed back
+into training.)
 
 ## Roadmap
 

@@ -215,12 +215,19 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=["smoke", "full"], default="smoke")
     ap.add_argument("--ckpt", default="")
-    ap.add_argument("--corpus", default=str(Path(r"H:\ChesiAI-Data\chesi_pretrain_corpus\chesi_10b_corpus.jsonl")))
+    ap.add_argument("--corpus", default=str(Path(__file__).resolve().parent.parent / "data" / "corpus.jsonl"))
     ap.add_argument("--tokenizer-json", default=str(Path(__file__).resolve().parent.parent / "tokenizer" / "tokenizer.json"))
     ap.add_argument("--steps", type=int, default=120)
     ap.add_argument("--batch-size", type=int, default=4)
     ap.add_argument("--device", default="cpu")
     args = ap.parse_args()
+
+    # 语料可用性前置检查：默认路径不存在时给出可操作提示，而不是跑到一半超时
+    if args.mode == "smoke" and not Path(args.corpus).exists():
+        raise SystemExit(
+            f"[verify] 找不到语料文件：{args.corpus}\n"
+            "请用 --corpus <你的语料路径> 指定。语料获取与许可确认见 docs/REPRODUCE.md。"
+        )
 
     device = resolve_device(args.device)
     tk = load_tokenizer(args.tokenizer_json)

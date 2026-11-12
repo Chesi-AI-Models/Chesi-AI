@@ -10,10 +10,35 @@ import json
 import collections
 import time
 import os
+import sys
 
 T0 = time.time()
-CORPUS = r"H:\ChesiAI-Data\chesi_pretrain_corpus\chesi_10b_corpus.jsonl"
-OUTDIR = r"G:\LianAIdamoxinkaifwj\tokenizer"
+
+# 语料与输出目录：默认相对仓库根解析，可用 --corpus / --outdir 覆盖（顺序固定：先 corpus 后 outdir）
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_CORPUS_DEFAULT = os.path.join(os.path.dirname(_HERE), "data", "corpus.jsonl")
+OUTDIR_DEFAULT = _HERE
+
+
+def _arg(name, default):
+    """极简参数解析：--name value 或 --name=value；不引入 argparse 的额外依赖语义。"""
+    argv = sys.argv[1:]
+    for i, a in enumerate(argv):
+        if a == name and i + 1 < len(argv):
+            return argv[i + 1]
+        if a.startswith(name + "="):
+            return a.split("=", 1)[1]
+    return default
+
+
+CORPUS = _arg("--corpus", _CORPUS_DEFAULT)
+OUTDIR = _arg("--outdir", OUTDIR_DEFAULT)
+
+if not os.path.exists(CORPUS):
+    raise SystemExit(
+        "[tokenizer] 找不到语料文件：%s\n"
+        "请用 --corpus <你的语料路径> 指定。语料获取与许可确认见 docs/REPRODUCE.md。" % CORPUS
+    )
 os.makedirs(OUTDIR, exist_ok=True)
 
 SPECIAL = {"<pad>": 0, "<unk>": 1, "<bos>": 2, "<eos>": 3}
@@ -67,7 +92,7 @@ print("[3/3] 落盘 tokenizer.json ...", flush=True)
 tok = {
     "model_type": "char-level",
     "version": "chesi-tok-v1",
-    "trained_on": "chesi_10b_corpus.jsonl",
+    "trained_on": os.path.basename(CORPUS),
     "trained_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     "corpus_stats": {"docs": n_docs, "chars": n_chars, "unique_chars": len(freq)},
     "special_tokens": SPECIAL,
@@ -90,7 +115,7 @@ rep.append("")
 rep.append("| 项 | 值 |")
 rep.append("|---|---|")
 rep.append("| 类型 | 字符级（char-level） |")
-rep.append("| 训练语料 | `H:\\ChesiAI-Data\\chesi_pretrain_corpus\\chesi_10b_corpus.jsonl` |")
+rep.append("| 训练语料 | `%s` |" % os.path.basename(CORPUS))
 rep.append("| 语料规模 | %s 文档 / %s 字符 |" % ("{:,}".format(n_docs), "{:,}".format(n_chars)))
 rep.append("| 唯一字符 | %s |" % "{:,}".format(len(freq)))
 rep.append("| 频率阈值 | %d |" % threshold)

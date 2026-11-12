@@ -126,6 +126,16 @@ def train_run(cfg, log_fn=print):
         dtype = torch.bfloat16
     autocast_ctx = torch.autocast(device_type=device.type, dtype=dtype, enabled=(cfg.dtype == "bf16"))
 
+    # 语料可用性前置检查：默认路径不存在时给出可操作提示，而不是抛底层异常
+    _corp_paths = [s.strip() for s in str(cfg.corpus).split(",") if s.strip()]
+    _missing = [p for p in _corp_paths if ("*" not in p and "?" not in p and not Path(p).exists())]
+    if _missing:
+        raise SystemExit(
+            "[stage1] 找不到语料文件：\n  " + "\n  ".join(_missing) +
+            "\n\n请用 --corpus <你的语料路径> 指定（支持逗号分隔多文件 / glob）。"
+            "\n语料获取与许可确认见 docs/REPRODUCE.md。"
+        )
+
     corpus = PackedCorpus(cfg.corpus, tk, seq_len=cfg.seq_len, text_field=cfg.text_field,
                           eval_stride=cfg.eval_stride, max_blocks=None)
     it = iter(corpus)
@@ -218,8 +228,8 @@ def save_ckpt(cfg, model, opt, step, is_ddp, tag="latest"):
 
 def build_parser():
     p = argparse.ArgumentParser(description="澈思 Stage-1 训练器（设备无关）")
-    p.add_argument("--corpus", default=str(Path(r"H:\ChesiAI-Data\chesi_pretrain_corpus\chesi_10b_corpus.jsonl")),
-                   help="jsonl 语料路径（支持逗号分隔/glob）")
+    p.add_argument("--corpus", default=str(ROOT.parent / "data" / "corpus.jsonl"),
+                   help="jsonl 语料路径（支持逗号分隔/glob）。未指定且默认不存在时会报错提示。")
     p.add_argument("--tokenizer-json", default=str(ROOT.parent / "tokenizer" / "tokenizer.json"))
     p.add_argument("--stage1-vocab-size", type=int, default=7276)
     p.add_argument("--full-vocab", action="store_true", help="用全量 11,387 词表（Stage 2+）")
